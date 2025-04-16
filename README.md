@@ -23,28 +23,30 @@ You'll basically need a working Docker environment to run the SurrealDB server.
 - [Docker Desktop for Windows/WSL]('https://learn.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/set-up-linux-containers') Required for Windows users
 - [Surrealist]('https://surrealdb.com/docs/surrealist')
 
-**NOTE**: _I use [nix-direnv]('https://github.com/nix-community/nix-direnv') to manage my development environment. This also let's me use commands directly from the CLI. This is optional._
+_**NOTE**: I use [nix-direnv]('https://github.com/nix-community/nix-direnv') to manage my development environment. This also let's me use commands directly from the CLI. This is optional._
 
 ## 🦥 Getting Started
+_**NOTE**: Let `root` mean the root of the repository. Represented as `~/surreal-db-store/`_
 
-1. Clone this repository and navigate to the root.
-2. Create a `.env` at the root, and replace the content with your settings
+1. Clone this repository and navigate to the root
+2. Create a `data` directory (if not already present) at the root: `mkdir ./data`
+3. Create a `.env` at the root, and replace the content with your settings
    ```text
-   DB_USER=<your_surrealdb_user>
-   DB_PASS=<your_surrealdb_pass>
+   DB_USER=<your_choice_of_username>
+   DB_PASS=<your_very_secure_password>
    DB_HOST=0.0.0.0
    DB_PORT=8000
    ```
-3. Build and run the project: `docker-compose up --build --detach`
-4. Validate `HTTP 200` status code by making a request to `localhost:8000`. Refer to your `.env` for connection details.
+4. Build and run the project: `docker-compose up --build --detach`
+5. Validate `HTTP 200` status code by making a request to `localhost:8000`. Refer to your `.env` for connection details.
    - Linux: `curl -v localhost:8000`
    - Windows:
      ```powershell
          iwr "localhost:8000" | FT StatusCode, StatusDescription
      ```
-5. Launch Surrealist and create a [connection to the database]('https://surrealdb.com/docs/surrealist/getting-started#connections')
-6. ???
-7. Profit
+6. Launch Surrealist and create a [connection to the database]('https://surrealdb.com/docs/surrealist/getting-started#connections')
+7. ???
+8. Profit
 
 ## 🐋 Docker
 
