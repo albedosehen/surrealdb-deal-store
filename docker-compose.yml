@@ -1,0 +1,51 @@
+networks:
+  website-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.1.0.0/28
+          gateway: 172.1.0.1
+services:
+  init-data: # This service is used to set the correct permissions for the data directory https://github.com/surrealdb/surrealdb/issues/2601
+    image: busybox
+    command: chmod -R 777 /data
+    volumes:
+      - surrealdb-data:/data
+
+  database:
+    env_file:
+      - .env
+    entrypoint:
+      - /surreal
+      - start
+      - --allow-all
+      - --user
+      - ${DB_USER}
+      - --pass
+      - ${DB_PASS}
+      - --log
+      - debug
+      - --bind
+      - ${DB_HOST}:${DB_PORT}
+      - rocksdb:/data/app.db
+    image: surrealdb/surrealdb:latest-dev #https://surrealdb.com/docs/surrealdb/installation/running/docker
+    container_name: surreal-deal-store
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    networks:
+      website-network:
+        ipv4_address: 172.1.0.2
+    volumes:
+      - surrealdb-data:/data
+    depends_on:
+      init-data:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 4s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+volumes:
+  surrealdb-data:
