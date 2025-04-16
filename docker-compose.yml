@@ -24,11 +24,12 @@ services:
       - --pass
       - ${DB_PASS}
       - --log
-      - debug
+      - info
       - --bind
       - ${DB_HOST}:${DB_PORT}
-      - rocksdb:/data/app.db
-    image: surrealdb/surrealdb:latest-dev #https://surrealdb.com/docs/surrealdb/installation/running/docker
+      - rocksdb:/data/surreal-deal-store.db
+    #https://surrealdb.com/docs/surrealdb/installation/running/docker
+    image: surrealdb/surrealdb:${DB_VERSION}
     container_name: surreal-deal-store
     ports:
       - "${DB_PORT}:${DB_PORT}"
