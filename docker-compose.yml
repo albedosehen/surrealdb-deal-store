@@ -1,5 +1,5 @@
 networks:
-  website-network:
+  surrealdb-network:
     driver: bridge
     ipam:
       config:
@@ -34,7 +34,7 @@ services:
     ports:
       - "${DB_PORT}:${DB_PORT}"
     networks:
-      website-network:
+      surrealdb-network:
         ipv4_address: 172.1.0.2
     volumes:
       - surrealdb-data:/data
